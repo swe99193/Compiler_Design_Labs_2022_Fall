@@ -1,4 +1,4 @@
-# ICD22 Homework3
+# Compilers Lab_3
 
 ## How to run this program
 1. `make`: build `parser`
