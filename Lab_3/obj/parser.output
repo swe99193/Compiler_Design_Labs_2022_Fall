@@ -1,0 +1,2292 @@
+Nonterminals useless in grammar
+
+    prog
+
+
+Rules useless in grammar
+
+   73 prog: PROGRAM
+
+
+State 18 conflicts: 1 reduce/reduce
+State 69 conflicts: 12 shift/reduce
+State 103 conflicts: 12 shift/reduce
+State 104 conflicts: 12 shift/reduce
+State 105 conflicts: 2 shift/reduce
+State 106 conflicts: 2 shift/reduce
+State 107 conflicts: 2 shift/reduce
+State 108 conflicts: 2 shift/reduce
+State 109 conflicts: 2 shift/reduce
+State 110 conflicts: 2 shift/reduce
+State 111 conflicts: 2 shift/reduce
+State 112 conflicts: 2 shift/reduce
+State 113 conflicts: 2 shift/reduce
+State 114 conflicts: 2 shift/reduce
+
+
+Grammar
+
+    0 $accept: Program $end
+
+    1 $@1: %empty
+
+    2 $@2: %empty
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+
+    4 IdentifierList: IDENTIFIER
+    5               | IdentifierList COMMA IDENTIFIER
+
+    6 Declarations: %empty
+    7             | Declarations VAR IdentifierList COLON Type SEMICOLON
+
+    8 Type: StandardType
+    9     | ArraySize StandardType
+
+   10 ArraySize: ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE OF
+   11          | ArraySize ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE OF
+
+   12 StandardType: INTEGER
+   13             | REAL
+   14             | STRING
+
+   15 SubprogramDeclarations: %empty
+   16                       | SubprogramDeclarations SubprogramDeclaration
+
+   17 $@3: %empty
+
+   18 SubprogramDeclaration: $@3 SubprogramHead Declarations CompoundStatement SEMICOLON
+
+   19 $@4: %empty
+
+   20 SubprogramHead: FUNCTION IDENTIFIER $@4 Arguments COLON StandardType SEMICOLON
+
+   21 $@5: %empty
+
+   22 SubprogramHead: PROCEDURE IDENTIFIER $@5 Arguments SEMICOLON
+
+   23 Arguments: %empty
+   24          | LPAREN ParameterList RPAREN
+
+   25 ParameterList: Params
+   26              | ParameterList SEMICOLON Params
+
+   27 Params: OptionalVar IdentifierList COLON Type
+
+   28 OptionalVar: %empty
+   29            | VAR
+
+   30 CompoundStatement: PBEGIN OptionalStatements END
+
+   31 OptionalStatements: %empty
+   32                   | StatementList
+
+   33 StatementList: Statement
+   34              | StatementList SEMICOLON Statement
+
+   35 Statement: %empty
+   36          | Variable ASSIGNMENT Expression
+   37          | ProcedureStatement
+   38          | CompoundStatement
+   39          | IF Expression THEN Statement ELSE Statement
+   40          | WHILE Expression DO Statement
+
+   41 ProcedureStatement: IDENTIFIER
+   42                   | IDENTIFIER LPAREN ExpressionList RPAREN
+
+   43 ExpressionList: Expression
+   44               | ExpressionList COMMA Expression
+
+   45 Expression: Expression ADDOP Expression
+   46           | Expression SUBOP Expression
+   47           | Expression MULOP Expression
+   48           | Expression DIVOP Expression
+   49           | Expression GTOP Expression
+   50           | Expression LTOP Expression
+   51           | Expression GETOP Expression
+   52           | Expression LETOP Expression
+   53           | Expression EQOP Expression
+   54           | Expression NEQOP Expression
+   55           | Expression AND Expression
+   56           | Expression OR Expression
+   57           | NOT Expression
+   58           | LPAREN Expression RPAREN
+   59           | Variable
+   60           | Num
+   61           | SUBOP Num
+   62           | SUBOP SUBOP SUBOP Num
+   63           | LITERALSTR
+   64           | Function_call
+
+   65 Variable: IDENTIFIER
+   66         | IDENTIFIER Array
+
+   67 Array: LBRACE Expression RBRACE
+   68      | Array LBRACE Expression RBRACE
+
+   69 Num: REALNUMBER
+   70    | INTEGERNUM
+   71    | SCIENTIFIC
+
+   72 Function_call: IDENTIFIER LPAREN ExpressionList RPAREN
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    PROGRAM (258) 3
+    VAR (259) 7 29
+    ARRAY (260) 10 11
+    OF (261) 10 11
+    INTEGER (262) 12
+    REAL (263) 13
+    STRING (264) 14
+    FUNCTION (265) 20
+    PROCEDURE (266) 22
+    PBEGIN (267) 30
+    END (268) 30
+    IF (269) 39
+    THEN (270) 39
+    ELSE (271) 39
+    WHILE (272) 40
+    DO (273) 40
+    NOT (274) 57
+    AND (275) 55
+    OR (276) 56
+    LPAREN (277) 3 24 42 58 72
+    RPAREN (278) 3 24 42 58 72
+    SEMICOLON (279) 3 7 18 20 22 26 34
+    DOT (280) 3
+    COMMA (281) 5 44
+    COLON (282) 7 20 27
+    LBRACE (283) 10 11 67 68
+    RBRACE (284) 10 11 67 68
+    DOTDOT (285) 10 11
+    ASSIGNMENT (286) 36
+    ADDOP (287) 45
+    SUBOP (288) 46 61 62
+    MULOP (289) 47
+    DIVOP (290) 48
+    LTOP (291) 50
+    GTOP (292) 49
+    EQOP (293) 53
+    GETOP (294) 51
+    LETOP (295) 52
+    NEQOP (296) 54
+    REALNUMBER <val> (297) 69
+    INTEGERNUM <val> (298) 10 11 70
+    SCIENTIFIC <val> (299) 71
+    LITERALSTR <val> (300) 63
+    IDENTIFIER <name> (301) 3 4 5 20 22 41 42 65 66 72
+
+
+Nonterminals, with rules where they appear
+
+    $accept (47)
+        on left: 0
+    Program <node> (48)
+        on left: 3
+        on right: 0
+    $@1 (49)
+        on left: 1
+        on right: 3
+    $@2 (50)
+        on left: 2
+        on right: 3
+    IdentifierList <node> (51)
+        on left: 4 5
+        on right: 3 5 7 27
+    Declarations <node> (52)
+        on left: 6 7
+        on right: 3 7 18
+    Type <node> (53)
+        on left: 8 9
+        on right: 7 27
+    ArraySize <node> (54)
+        on left: 10 11
+        on right: 9 11
+    StandardType <integer> (55)
+        on left: 12 13 14
+        on right: 8 9 20
+    SubprogramDeclarations <node> (56)
+        on left: 15 16
+        on right: 3 16
+    SubprogramDeclaration <node> (57)
+        on left: 18
+        on right: 16
+    $@3 (58)
+        on left: 17
+        on right: 18
+    SubprogramHead <node> (59)
+        on left: 20 22
+        on right: 18
+    $@4 (60)
+        on left: 19
+        on right: 20
+    $@5 (61)
+        on left: 21
+        on right: 22
+    Arguments <node> (62)
+        on left: 23 24
+        on right: 20 22
+    ParameterList <node> (63)
+        on left: 25 26
+        on right: 24 26
+    Params <node> (64)
+        on left: 27
+        on right: 25 26
+    OptionalVar <node> (65)
+        on left: 28 29
+        on right: 27
+    CompoundStatement <node> (66)
+        on left: 30
+        on right: 3 18 38
+    OptionalStatements <node> (67)
+        on left: 31 32
+        on right: 30
+    StatementList <node> (68)
+        on left: 33 34
+        on right: 32 34
+    Statement <node> (69)
+        on left: 35 36 37 38 39 40
+        on right: 33 34 39 40
+    ProcedureStatement <node> (70)
+        on left: 41 42
+        on right: 37
+    ExpressionList <node> (71)
+        on left: 43 44
+        on right: 42 44 72
+    Expression <node> (72)
+        on left: 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64
+        on right: 36 39 40 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 67 68
+    Variable <node> (73)
+        on left: 65 66
+        on right: 36 59
+    Array <node> (74)
+        on left: 67 68
+        on right: 66 68
+    Num <node> (75)
+        on left: 69 70 71
+        on right: 60 61 62
+    Function_call <node> (76)
+        on left: 72
+        on right: 64
+
+
+State 0
+
+    0 $accept: . Program $end
+
+    PROGRAM  shift, and go to state 1
+
+    Program  go to state 2
+
+
+State 1
+
+    3 Program: PROGRAM . IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+
+    IDENTIFIER  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: Program . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    3 Program: PROGRAM IDENTIFIER . $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+
+    $default  reduce using rule 1 ($@1)
+
+    $@1  go to state 5
+
+
+State 4
+
+    0 $accept: Program $end .
+
+    $default  accept
+
+
+State 5
+
+    3 Program: PROGRAM IDENTIFIER $@1 . LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+
+    LPAREN  shift, and go to state 6
+
+
+State 6
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN . IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+
+    IDENTIFIER  shift, and go to state 7
+
+    IdentifierList  go to state 8
+
+
+State 7
+
+    4 IdentifierList: IDENTIFIER .
+
+    $default  reduce using rule 4 (IdentifierList)
+
+
+State 8
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList . RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+    5 IdentifierList: IdentifierList . COMMA IDENTIFIER
+
+    RPAREN  shift, and go to state 9
+    COMMA   shift, and go to state 10
+
+
+State 9
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN . SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+
+    SEMICOLON  shift, and go to state 11
+
+
+State 10
+
+    5 IdentifierList: IdentifierList COMMA . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 12
+
+
+State 11
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON . $@2 Declarations SubprogramDeclarations CompoundStatement DOT
+
+    $default  reduce using rule 2 ($@2)
+
+    $@2  go to state 13
+
+
+State 12
+
+    5 IdentifierList: IdentifierList COMMA IDENTIFIER .
+
+    $default  reduce using rule 5 (IdentifierList)
+
+
+State 13
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 . Declarations SubprogramDeclarations CompoundStatement DOT
+
+    $default  reduce using rule 6 (Declarations)
+
+    Declarations  go to state 14
+
+
+State 14
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations . SubprogramDeclarations CompoundStatement DOT
+    7 Declarations: Declarations . VAR IdentifierList COLON Type SEMICOLON
+
+    VAR  shift, and go to state 15
+
+    $default  reduce using rule 15 (SubprogramDeclarations)
+
+    SubprogramDeclarations  go to state 16
+
+
+State 15
+
+    7 Declarations: Declarations VAR . IdentifierList COLON Type SEMICOLON
+
+    IDENTIFIER  shift, and go to state 7
+
+    IdentifierList  go to state 17
+
+
+State 16
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations . CompoundStatement DOT
+   16 SubprogramDeclarations: SubprogramDeclarations . SubprogramDeclaration
+
+    PBEGIN  shift, and go to state 18
+
+    $default  reduce using rule 17 ($@3)
+
+    SubprogramDeclaration  go to state 19
+    $@3                    go to state 20
+    CompoundStatement      go to state 21
+
+
+State 17
+
+    5 IdentifierList: IdentifierList . COMMA IDENTIFIER
+    7 Declarations: Declarations VAR IdentifierList . COLON Type SEMICOLON
+
+    COMMA  shift, and go to state 10
+    COLON  shift, and go to state 22
+
+
+State 18
+
+   30 CompoundStatement: PBEGIN . OptionalStatements END
+
+    PBEGIN      shift, and go to state 18
+    IF          shift, and go to state 23
+    WHILE       shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+
+    END        reduce using rule 31 (OptionalStatements)
+    END        [reduce using rule 35 (Statement)]
+    SEMICOLON  reduce using rule 35 (Statement)
+    $default   reduce using rule 31 (OptionalStatements)
+
+    CompoundStatement   go to state 26
+    OptionalStatements  go to state 27
+    StatementList       go to state 28
+    Statement           go to state 29
+    ProcedureStatement  go to state 30
+    Variable            go to state 31
+
+
+State 19
+
+   16 SubprogramDeclarations: SubprogramDeclarations SubprogramDeclaration .
+
+    $default  reduce using rule 16 (SubprogramDeclarations)
+
+
+State 20
+
+   18 SubprogramDeclaration: $@3 . SubprogramHead Declarations CompoundStatement SEMICOLON
+
+    FUNCTION   shift, and go to state 32
+    PROCEDURE  shift, and go to state 33
+
+    SubprogramHead  go to state 34
+
+
+State 21
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement . DOT
+
+    DOT  shift, and go to state 35
+
+
+State 22
+
+    7 Declarations: Declarations VAR IdentifierList COLON . Type SEMICOLON
+
+    ARRAY    shift, and go to state 36
+    INTEGER  shift, and go to state 37
+    REAL     shift, and go to state 38
+    STRING   shift, and go to state 39
+
+    Type          go to state 40
+    ArraySize     go to state 41
+    StandardType  go to state 42
+
+
+State 23
+
+   39 Statement: IF . Expression THEN Statement ELSE Statement
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 51
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 24
+
+   40 Statement: WHILE . Expression DO Statement
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 55
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 25
+
+   41 ProcedureStatement: IDENTIFIER .
+   42                   | IDENTIFIER . LPAREN ExpressionList RPAREN
+   65 Variable: IDENTIFIER .
+   66         | IDENTIFIER . Array
+
+    LPAREN  shift, and go to state 56
+    LBRACE  shift, and go to state 57
+
+    ASSIGNMENT  reduce using rule 65 (Variable)
+    $default    reduce using rule 41 (ProcedureStatement)
+
+    Array  go to state 58
+
+
+State 26
+
+   38 Statement: CompoundStatement .
+
+    $default  reduce using rule 38 (Statement)
+
+
+State 27
+
+   30 CompoundStatement: PBEGIN OptionalStatements . END
+
+    END  shift, and go to state 59
+
+
+State 28
+
+   32 OptionalStatements: StatementList .
+   34 StatementList: StatementList . SEMICOLON Statement
+
+    SEMICOLON  shift, and go to state 60
+
+    $default  reduce using rule 32 (OptionalStatements)
+
+
+State 29
+
+   33 StatementList: Statement .
+
+    $default  reduce using rule 33 (StatementList)
+
+
+State 30
+
+   37 Statement: ProcedureStatement .
+
+    $default  reduce using rule 37 (Statement)
+
+
+State 31
+
+   36 Statement: Variable . ASSIGNMENT Expression
+
+    ASSIGNMENT  shift, and go to state 61
+
+
+State 32
+
+   20 SubprogramHead: FUNCTION . IDENTIFIER $@4 Arguments COLON StandardType SEMICOLON
+
+    IDENTIFIER  shift, and go to state 62
+
+
+State 33
+
+   22 SubprogramHead: PROCEDURE . IDENTIFIER $@5 Arguments SEMICOLON
+
+    IDENTIFIER  shift, and go to state 63
+
+
+State 34
+
+   18 SubprogramDeclaration: $@3 SubprogramHead . Declarations CompoundStatement SEMICOLON
+
+    $default  reduce using rule 6 (Declarations)
+
+    Declarations  go to state 64
+
+
+State 35
+
+    3 Program: PROGRAM IDENTIFIER $@1 LPAREN IdentifierList RPAREN SEMICOLON $@2 Declarations SubprogramDeclarations CompoundStatement DOT .
+
+    $default  reduce using rule 3 (Program)
+
+
+State 36
+
+   10 ArraySize: ARRAY . LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE OF
+
+    LBRACE  shift, and go to state 65
+
+
+State 37
+
+   12 StandardType: INTEGER .
+
+    $default  reduce using rule 12 (StandardType)
+
+
+State 38
+
+   13 StandardType: REAL .
+
+    $default  reduce using rule 13 (StandardType)
+
+
+State 39
+
+   14 StandardType: STRING .
+
+    $default  reduce using rule 14 (StandardType)
+
+
+State 40
+
+    7 Declarations: Declarations VAR IdentifierList COLON Type . SEMICOLON
+
+    SEMICOLON  shift, and go to state 66
+
+
+State 41
+
+    9 Type: ArraySize . StandardType
+   11 ArraySize: ArraySize . ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE OF
+
+    ARRAY    shift, and go to state 67
+    INTEGER  shift, and go to state 37
+    REAL     shift, and go to state 38
+    STRING   shift, and go to state 39
+
+    StandardType  go to state 68
+
+
+State 42
+
+    8 Type: StandardType .
+
+    $default  reduce using rule 8 (Type)
+
+
+State 43
+
+   57 Expression: NOT . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 69
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 44
+
+   58 Expression: LPAREN . Expression RPAREN
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 70
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 45
+
+   61 Expression: SUBOP . Num
+   62           | SUBOP . SUBOP SUBOP Num
+
+    SUBOP       shift, and go to state 71
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+
+    Num  go to state 72
+
+
+State 46
+
+   69 Num: REALNUMBER .
+
+    $default  reduce using rule 69 (Num)
+
+
+State 47
+
+   70 Num: INTEGERNUM .
+
+    $default  reduce using rule 70 (Num)
+
+
+State 48
+
+   71 Num: SCIENTIFIC .
+
+    $default  reduce using rule 71 (Num)
+
+
+State 49
+
+   63 Expression: LITERALSTR .
+
+    $default  reduce using rule 63 (Expression)
+
+
+State 50
+
+   65 Variable: IDENTIFIER .
+   66         | IDENTIFIER . Array
+   72 Function_call: IDENTIFIER . LPAREN ExpressionList RPAREN
+
+    LPAREN  shift, and go to state 73
+    LBRACE  shift, and go to state 57
+
+    $default  reduce using rule 65 (Variable)
+
+    Array  go to state 58
+
+
+State 51
+
+   39 Statement: IF Expression . THEN Statement ELSE Statement
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    THEN   shift, and go to state 74
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+
+State 52
+
+   59 Expression: Variable .
+
+    $default  reduce using rule 59 (Expression)
+
+
+State 53
+
+   60 Expression: Num .
+
+    $default  reduce using rule 60 (Expression)
+
+
+State 54
+
+   64 Expression: Function_call .
+
+    $default  reduce using rule 64 (Expression)
+
+
+State 55
+
+   40 Statement: WHILE Expression . DO Statement
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    DO     shift, and go to state 87
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+
+State 56
+
+   42 ProcedureStatement: IDENTIFIER LPAREN . ExpressionList RPAREN
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    ExpressionList  go to state 88
+    Expression      go to state 89
+    Variable        go to state 52
+    Num             go to state 53
+    Function_call   go to state 54
+
+
+State 57
+
+   67 Array: LBRACE . Expression RBRACE
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 90
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 58
+
+   66 Variable: IDENTIFIER Array .
+   68 Array: Array . LBRACE Expression RBRACE
+
+    LBRACE  shift, and go to state 91
+
+    $default  reduce using rule 66 (Variable)
+
+
+State 59
+
+   30 CompoundStatement: PBEGIN OptionalStatements END .
+
+    $default  reduce using rule 30 (CompoundStatement)
+
+
+State 60
+
+   34 StatementList: StatementList SEMICOLON . Statement
+
+    PBEGIN      shift, and go to state 18
+    IF          shift, and go to state 23
+    WHILE       shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+
+    $default  reduce using rule 35 (Statement)
+
+    CompoundStatement   go to state 26
+    Statement           go to state 92
+    ProcedureStatement  go to state 30
+    Variable            go to state 31
+
+
+State 61
+
+   36 Statement: Variable ASSIGNMENT . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 93
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 62
+
+   20 SubprogramHead: FUNCTION IDENTIFIER . $@4 Arguments COLON StandardType SEMICOLON
+
+    $default  reduce using rule 19 ($@4)
+
+    $@4  go to state 94
+
+
+State 63
+
+   22 SubprogramHead: PROCEDURE IDENTIFIER . $@5 Arguments SEMICOLON
+
+    $default  reduce using rule 21 ($@5)
+
+    $@5  go to state 95
+
+
+State 64
+
+    7 Declarations: Declarations . VAR IdentifierList COLON Type SEMICOLON
+   18 SubprogramDeclaration: $@3 SubprogramHead Declarations . CompoundStatement SEMICOLON
+
+    VAR     shift, and go to state 15
+    PBEGIN  shift, and go to state 18
+
+    CompoundStatement  go to state 96
+
+
+State 65
+
+   10 ArraySize: ARRAY LBRACE . INTEGERNUM DOTDOT INTEGERNUM RBRACE OF
+
+    INTEGERNUM  shift, and go to state 97
+
+
+State 66
+
+    7 Declarations: Declarations VAR IdentifierList COLON Type SEMICOLON .
+
+    $default  reduce using rule 7 (Declarations)
+
+
+State 67
+
+   11 ArraySize: ArraySize ARRAY . LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE OF
+
+    LBRACE  shift, and go to state 98
+
+
+State 68
+
+    9 Type: ArraySize StandardType .
+
+    $default  reduce using rule 9 (Type)
+
+
+State 69
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+   57           | NOT Expression .
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    AND       [reduce using rule 57 (Expression)]
+    OR        [reduce using rule 57 (Expression)]
+    ADDOP     [reduce using rule 57 (Expression)]
+    SUBOP     [reduce using rule 57 (Expression)]
+    MULOP     [reduce using rule 57 (Expression)]
+    DIVOP     [reduce using rule 57 (Expression)]
+    LTOP      [reduce using rule 57 (Expression)]
+    GTOP      [reduce using rule 57 (Expression)]
+    EQOP      [reduce using rule 57 (Expression)]
+    GETOP     [reduce using rule 57 (Expression)]
+    LETOP     [reduce using rule 57 (Expression)]
+    NEQOP     [reduce using rule 57 (Expression)]
+    $default  reduce using rule 57 (Expression)
+
+
+State 70
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+   58           | LPAREN Expression . RPAREN
+
+    AND     shift, and go to state 75
+    OR      shift, and go to state 76
+    RPAREN  shift, and go to state 99
+    ADDOP   shift, and go to state 77
+    SUBOP   shift, and go to state 78
+    MULOP   shift, and go to state 79
+    DIVOP   shift, and go to state 80
+    LTOP    shift, and go to state 81
+    GTOP    shift, and go to state 82
+    EQOP    shift, and go to state 83
+    GETOP   shift, and go to state 84
+    LETOP   shift, and go to state 85
+    NEQOP   shift, and go to state 86
+
+
+State 71
+
+   62 Expression: SUBOP SUBOP . SUBOP Num
+
+    SUBOP  shift, and go to state 100
+
+
+State 72
+
+   61 Expression: SUBOP Num .
+
+    $default  reduce using rule 61 (Expression)
+
+
+State 73
+
+   72 Function_call: IDENTIFIER LPAREN . ExpressionList RPAREN
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    ExpressionList  go to state 101
+    Expression      go to state 89
+    Variable        go to state 52
+    Num             go to state 53
+    Function_call   go to state 54
+
+
+State 74
+
+   39 Statement: IF Expression THEN . Statement ELSE Statement
+
+    PBEGIN      shift, and go to state 18
+    IF          shift, and go to state 23
+    WHILE       shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+
+    $default  reduce using rule 35 (Statement)
+
+    CompoundStatement   go to state 26
+    Statement           go to state 102
+    ProcedureStatement  go to state 30
+    Variable            go to state 31
+
+
+State 75
+
+   55 Expression: Expression AND . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 103
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 76
+
+   56 Expression: Expression OR . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 104
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 77
+
+   45 Expression: Expression ADDOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 105
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 78
+
+   46 Expression: Expression SUBOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 106
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 79
+
+   47 Expression: Expression MULOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 107
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 80
+
+   48 Expression: Expression DIVOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 108
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 81
+
+   50 Expression: Expression LTOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 109
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 82
+
+   49 Expression: Expression GTOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 110
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 83
+
+   53 Expression: Expression EQOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 111
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 84
+
+   51 Expression: Expression GETOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 112
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 85
+
+   52 Expression: Expression LETOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 113
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 86
+
+   54 Expression: Expression NEQOP . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 114
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 87
+
+   40 Statement: WHILE Expression DO . Statement
+
+    PBEGIN      shift, and go to state 18
+    IF          shift, and go to state 23
+    WHILE       shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+
+    $default  reduce using rule 35 (Statement)
+
+    CompoundStatement   go to state 26
+    Statement           go to state 115
+    ProcedureStatement  go to state 30
+    Variable            go to state 31
+
+
+State 88
+
+   42 ProcedureStatement: IDENTIFIER LPAREN ExpressionList . RPAREN
+   44 ExpressionList: ExpressionList . COMMA Expression
+
+    RPAREN  shift, and go to state 116
+    COMMA   shift, and go to state 117
+
+
+State 89
+
+   43 ExpressionList: Expression .
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    $default  reduce using rule 43 (ExpressionList)
+
+
+State 90
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+   67 Array: LBRACE Expression . RBRACE
+
+    AND     shift, and go to state 75
+    OR      shift, and go to state 76
+    RBRACE  shift, and go to state 118
+    ADDOP   shift, and go to state 77
+    SUBOP   shift, and go to state 78
+    MULOP   shift, and go to state 79
+    DIVOP   shift, and go to state 80
+    LTOP    shift, and go to state 81
+    GTOP    shift, and go to state 82
+    EQOP    shift, and go to state 83
+    GETOP   shift, and go to state 84
+    LETOP   shift, and go to state 85
+    NEQOP   shift, and go to state 86
+
+
+State 91
+
+   68 Array: Array LBRACE . Expression RBRACE
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 119
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 92
+
+   34 StatementList: StatementList SEMICOLON Statement .
+
+    $default  reduce using rule 34 (StatementList)
+
+
+State 93
+
+   36 Statement: Variable ASSIGNMENT Expression .
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    $default  reduce using rule 36 (Statement)
+
+
+State 94
+
+   20 SubprogramHead: FUNCTION IDENTIFIER $@4 . Arguments COLON StandardType SEMICOLON
+
+    LPAREN  shift, and go to state 120
+
+    $default  reduce using rule 23 (Arguments)
+
+    Arguments  go to state 121
+
+
+State 95
+
+   22 SubprogramHead: PROCEDURE IDENTIFIER $@5 . Arguments SEMICOLON
+
+    LPAREN  shift, and go to state 120
+
+    $default  reduce using rule 23 (Arguments)
+
+    Arguments  go to state 122
+
+
+State 96
+
+   18 SubprogramDeclaration: $@3 SubprogramHead Declarations CompoundStatement . SEMICOLON
+
+    SEMICOLON  shift, and go to state 123
+
+
+State 97
+
+   10 ArraySize: ARRAY LBRACE INTEGERNUM . DOTDOT INTEGERNUM RBRACE OF
+
+    DOTDOT  shift, and go to state 124
+
+
+State 98
+
+   11 ArraySize: ArraySize ARRAY LBRACE . INTEGERNUM DOTDOT INTEGERNUM RBRACE OF
+
+    INTEGERNUM  shift, and go to state 125
+
+
+State 99
+
+   58 Expression: LPAREN Expression RPAREN .
+
+    $default  reduce using rule 58 (Expression)
+
+
+State 100
+
+   62 Expression: SUBOP SUBOP SUBOP . Num
+
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+
+    Num  go to state 126
+
+
+State 101
+
+   44 ExpressionList: ExpressionList . COMMA Expression
+   72 Function_call: IDENTIFIER LPAREN ExpressionList . RPAREN
+
+    RPAREN  shift, and go to state 127
+    COMMA   shift, and go to state 117
+
+
+State 102
+
+   39 Statement: IF Expression THEN Statement . ELSE Statement
+
+    ELSE  shift, and go to state 128
+
+
+State 103
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   55           | Expression AND Expression .
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    AND       [reduce using rule 55 (Expression)]
+    OR        [reduce using rule 55 (Expression)]
+    ADDOP     [reduce using rule 55 (Expression)]
+    SUBOP     [reduce using rule 55 (Expression)]
+    MULOP     [reduce using rule 55 (Expression)]
+    DIVOP     [reduce using rule 55 (Expression)]
+    LTOP      [reduce using rule 55 (Expression)]
+    GTOP      [reduce using rule 55 (Expression)]
+    EQOP      [reduce using rule 55 (Expression)]
+    GETOP     [reduce using rule 55 (Expression)]
+    LETOP     [reduce using rule 55 (Expression)]
+    NEQOP     [reduce using rule 55 (Expression)]
+    $default  reduce using rule 55 (Expression)
+
+
+State 104
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+   56           | Expression OR Expression .
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    AND       [reduce using rule 56 (Expression)]
+    OR        [reduce using rule 56 (Expression)]
+    ADDOP     [reduce using rule 56 (Expression)]
+    SUBOP     [reduce using rule 56 (Expression)]
+    MULOP     [reduce using rule 56 (Expression)]
+    DIVOP     [reduce using rule 56 (Expression)]
+    LTOP      [reduce using rule 56 (Expression)]
+    GTOP      [reduce using rule 56 (Expression)]
+    EQOP      [reduce using rule 56 (Expression)]
+    GETOP     [reduce using rule 56 (Expression)]
+    LETOP     [reduce using rule 56 (Expression)]
+    NEQOP     [reduce using rule 56 (Expression)]
+    $default  reduce using rule 56 (Expression)
+
+
+State 105
+
+   45 Expression: Expression . ADDOP Expression
+   45           | Expression ADDOP Expression .
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    AND       [reduce using rule 45 (Expression)]
+    OR        [reduce using rule 45 (Expression)]
+    $default  reduce using rule 45 (Expression)
+
+
+State 106
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   46           | Expression SUBOP Expression .
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    AND       [reduce using rule 46 (Expression)]
+    OR        [reduce using rule 46 (Expression)]
+    $default  reduce using rule 46 (Expression)
+
+
+State 107
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   47           | Expression MULOP Expression .
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    AND       [reduce using rule 47 (Expression)]
+    OR        [reduce using rule 47 (Expression)]
+    $default  reduce using rule 47 (Expression)
+
+
+State 108
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   48           | Expression DIVOP Expression .
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    AND       [reduce using rule 48 (Expression)]
+    OR        [reduce using rule 48 (Expression)]
+    $default  reduce using rule 48 (Expression)
+
+
+State 109
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   50           | Expression LTOP Expression .
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND  shift, and go to state 75
+    OR   shift, and go to state 76
+
+    AND       [reduce using rule 50 (Expression)]
+    OR        [reduce using rule 50 (Expression)]
+    $default  reduce using rule 50 (Expression)
+
+
+State 110
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   49           | Expression GTOP Expression .
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND  shift, and go to state 75
+    OR   shift, and go to state 76
+
+    AND       [reduce using rule 49 (Expression)]
+    OR        [reduce using rule 49 (Expression)]
+    $default  reduce using rule 49 (Expression)
+
+
+State 111
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   53           | Expression EQOP Expression .
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND  shift, and go to state 75
+    OR   shift, and go to state 76
+
+    AND       [reduce using rule 53 (Expression)]
+    OR        [reduce using rule 53 (Expression)]
+    $default  reduce using rule 53 (Expression)
+
+
+State 112
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   51           | Expression GETOP Expression .
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND  shift, and go to state 75
+    OR   shift, and go to state 76
+
+    AND       [reduce using rule 51 (Expression)]
+    OR        [reduce using rule 51 (Expression)]
+    $default  reduce using rule 51 (Expression)
+
+
+State 113
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   52           | Expression LETOP Expression .
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND  shift, and go to state 75
+    OR   shift, and go to state 76
+
+    AND       [reduce using rule 52 (Expression)]
+    OR        [reduce using rule 52 (Expression)]
+    $default  reduce using rule 52 (Expression)
+
+
+State 114
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   54           | Expression NEQOP Expression .
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND  shift, and go to state 75
+    OR   shift, and go to state 76
+
+    AND       [reduce using rule 54 (Expression)]
+    OR        [reduce using rule 54 (Expression)]
+    $default  reduce using rule 54 (Expression)
+
+
+State 115
+
+   40 Statement: WHILE Expression DO Statement .
+
+    $default  reduce using rule 40 (Statement)
+
+
+State 116
+
+   42 ProcedureStatement: IDENTIFIER LPAREN ExpressionList RPAREN .
+
+    $default  reduce using rule 42 (ProcedureStatement)
+
+
+State 117
+
+   44 ExpressionList: ExpressionList COMMA . Expression
+
+    NOT         shift, and go to state 43
+    LPAREN      shift, and go to state 44
+    SUBOP       shift, and go to state 45
+    REALNUMBER  shift, and go to state 46
+    INTEGERNUM  shift, and go to state 47
+    SCIENTIFIC  shift, and go to state 48
+    LITERALSTR  shift, and go to state 49
+    IDENTIFIER  shift, and go to state 50
+
+    Expression     go to state 129
+    Variable       go to state 52
+    Num            go to state 53
+    Function_call  go to state 54
+
+
+State 118
+
+   67 Array: LBRACE Expression RBRACE .
+
+    $default  reduce using rule 67 (Array)
+
+
+State 119
+
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+   68 Array: Array LBRACE Expression . RBRACE
+
+    AND     shift, and go to state 75
+    OR      shift, and go to state 76
+    RBRACE  shift, and go to state 130
+    ADDOP   shift, and go to state 77
+    SUBOP   shift, and go to state 78
+    MULOP   shift, and go to state 79
+    DIVOP   shift, and go to state 80
+    LTOP    shift, and go to state 81
+    GTOP    shift, and go to state 82
+    EQOP    shift, and go to state 83
+    GETOP   shift, and go to state 84
+    LETOP   shift, and go to state 85
+    NEQOP   shift, and go to state 86
+
+
+State 120
+
+   24 Arguments: LPAREN . ParameterList RPAREN
+
+    VAR  shift, and go to state 131
+
+    $default  reduce using rule 28 (OptionalVar)
+
+    ParameterList  go to state 132
+    Params         go to state 133
+    OptionalVar    go to state 134
+
+
+State 121
+
+   20 SubprogramHead: FUNCTION IDENTIFIER $@4 Arguments . COLON StandardType SEMICOLON
+
+    COLON  shift, and go to state 135
+
+
+State 122
+
+   22 SubprogramHead: PROCEDURE IDENTIFIER $@5 Arguments . SEMICOLON
+
+    SEMICOLON  shift, and go to state 136
+
+
+State 123
+
+   18 SubprogramDeclaration: $@3 SubprogramHead Declarations CompoundStatement SEMICOLON .
+
+    $default  reduce using rule 18 (SubprogramDeclaration)
+
+
+State 124
+
+   10 ArraySize: ARRAY LBRACE INTEGERNUM DOTDOT . INTEGERNUM RBRACE OF
+
+    INTEGERNUM  shift, and go to state 137
+
+
+State 125
+
+   11 ArraySize: ArraySize ARRAY LBRACE INTEGERNUM . DOTDOT INTEGERNUM RBRACE OF
+
+    DOTDOT  shift, and go to state 138
+
+
+State 126
+
+   62 Expression: SUBOP SUBOP SUBOP Num .
+
+    $default  reduce using rule 62 (Expression)
+
+
+State 127
+
+   72 Function_call: IDENTIFIER LPAREN ExpressionList RPAREN .
+
+    $default  reduce using rule 72 (Function_call)
+
+
+State 128
+
+   39 Statement: IF Expression THEN Statement ELSE . Statement
+
+    PBEGIN      shift, and go to state 18
+    IF          shift, and go to state 23
+    WHILE       shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+
+    $default  reduce using rule 35 (Statement)
+
+    CompoundStatement   go to state 26
+    Statement           go to state 139
+    ProcedureStatement  go to state 30
+    Variable            go to state 31
+
+
+State 129
+
+   44 ExpressionList: ExpressionList COMMA Expression .
+   45 Expression: Expression . ADDOP Expression
+   46           | Expression . SUBOP Expression
+   47           | Expression . MULOP Expression
+   48           | Expression . DIVOP Expression
+   49           | Expression . GTOP Expression
+   50           | Expression . LTOP Expression
+   51           | Expression . GETOP Expression
+   52           | Expression . LETOP Expression
+   53           | Expression . EQOP Expression
+   54           | Expression . NEQOP Expression
+   55           | Expression . AND Expression
+   56           | Expression . OR Expression
+
+    AND    shift, and go to state 75
+    OR     shift, and go to state 76
+    ADDOP  shift, and go to state 77
+    SUBOP  shift, and go to state 78
+    MULOP  shift, and go to state 79
+    DIVOP  shift, and go to state 80
+    LTOP   shift, and go to state 81
+    GTOP   shift, and go to state 82
+    EQOP   shift, and go to state 83
+    GETOP  shift, and go to state 84
+    LETOP  shift, and go to state 85
+    NEQOP  shift, and go to state 86
+
+    $default  reduce using rule 44 (ExpressionList)
+
+
+State 130
+
+   68 Array: Array LBRACE Expression RBRACE .
+
+    $default  reduce using rule 68 (Array)
+
+
+State 131
+
+   29 OptionalVar: VAR .
+
+    $default  reduce using rule 29 (OptionalVar)
+
+
+State 132
+
+   24 Arguments: LPAREN ParameterList . RPAREN
+   26 ParameterList: ParameterList . SEMICOLON Params
+
+    RPAREN     shift, and go to state 140
+    SEMICOLON  shift, and go to state 141
+
+
+State 133
+
+   25 ParameterList: Params .
+
+    $default  reduce using rule 25 (ParameterList)
+
+
+State 134
+
+   27 Params: OptionalVar . IdentifierList COLON Type
+
+    IDENTIFIER  shift, and go to state 7
+
+    IdentifierList  go to state 142
+
+
+State 135
+
+   20 SubprogramHead: FUNCTION IDENTIFIER $@4 Arguments COLON . StandardType SEMICOLON
+
+    INTEGER  shift, and go to state 37
+    REAL     shift, and go to state 38
+    STRING   shift, and go to state 39
+
+    StandardType  go to state 143
+
+
+State 136
+
+   22 SubprogramHead: PROCEDURE IDENTIFIER $@5 Arguments SEMICOLON .
+
+    $default  reduce using rule 22 (SubprogramHead)
+
+
+State 137
+
+   10 ArraySize: ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM . RBRACE OF
+
+    RBRACE  shift, and go to state 144
+
+
+State 138
+
+   11 ArraySize: ArraySize ARRAY LBRACE INTEGERNUM DOTDOT . INTEGERNUM RBRACE OF
+
+    INTEGERNUM  shift, and go to state 145
+
+
+State 139
+
+   39 Statement: IF Expression THEN Statement ELSE Statement .
+
+    $default  reduce using rule 39 (Statement)
+
+
+State 140
+
+   24 Arguments: LPAREN ParameterList RPAREN .
+
+    $default  reduce using rule 24 (Arguments)
+
+
+State 141
+
+   26 ParameterList: ParameterList SEMICOLON . Params
+
+    VAR  shift, and go to state 131
+
+    $default  reduce using rule 28 (OptionalVar)
+
+    Params       go to state 146
+    OptionalVar  go to state 134
+
+
+State 142
+
+    5 IdentifierList: IdentifierList . COMMA IDENTIFIER
+   27 Params: OptionalVar IdentifierList . COLON Type
+
+    COMMA  shift, and go to state 10
+    COLON  shift, and go to state 147
+
+
+State 143
+
+   20 SubprogramHead: FUNCTION IDENTIFIER $@4 Arguments COLON StandardType . SEMICOLON
+
+    SEMICOLON  shift, and go to state 148
+
+
+State 144
+
+   10 ArraySize: ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE . OF
+
+    OF  shift, and go to state 149
+
+
+State 145
+
+   11 ArraySize: ArraySize ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM . RBRACE OF
+
+    RBRACE  shift, and go to state 150
+
+
+State 146
+
+   26 ParameterList: ParameterList SEMICOLON Params .
+
+    $default  reduce using rule 26 (ParameterList)
+
+
+State 147
+
+   27 Params: OptionalVar IdentifierList COLON . Type
+
+    ARRAY    shift, and go to state 36
+    INTEGER  shift, and go to state 37
+    REAL     shift, and go to state 38
+    STRING   shift, and go to state 39
+
+    Type          go to state 151
+    ArraySize     go to state 41
+    StandardType  go to state 42
+
+
+State 148
+
+   20 SubprogramHead: FUNCTION IDENTIFIER $@4 Arguments COLON StandardType SEMICOLON .
+
+    $default  reduce using rule 20 (SubprogramHead)
+
+
+State 149
+
+   10 ArraySize: ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE OF .
+
+    $default  reduce using rule 10 (ArraySize)
+
+
+State 150
+
+   11 ArraySize: ArraySize ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE . OF
+
+    OF  shift, and go to state 152
+
+
+State 151
+
+   27 Params: OptionalVar IdentifierList COLON Type .
+
+    $default  reduce using rule 27 (Params)
+
+
+State 152
+
+   11 ArraySize: ArraySize ARRAY LBRACE INTEGERNUM DOTDOT INTEGERNUM RBRACE OF .
+
+    $default  reduce using rule 11 (ArraySize)
