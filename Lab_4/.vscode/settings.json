@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "stdbool.h": "c",
+        "ast.h": "c",
+        "cstring": "c",
+        "string.h": "c",
+        "locale": "c",
+        "symtab.h": "c",
+        "__locale": "c",
+        "codegen.h": "c",
+        "ios": "c",
+        "__node_handle": "c"
+    }
+}
